@@ -21,7 +21,7 @@ export const refineOcrText = async (text) => {
 
   if (tokenCount > inputTokenLimit) {
     console.log("Text token limit exceeded, chunking...");
-    const textChunks = chunkText(text, inputTokenLimit);
+    const textChunks = await chunkText(text, inputTokenLimit);
     let refinedChunks = [];
 
     for (const chunk of textChunks) {
