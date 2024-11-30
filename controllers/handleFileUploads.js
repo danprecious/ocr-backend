@@ -37,13 +37,13 @@ export const handleFileUploads = async (req, res) => {
       const preProcessedOcrOutput = await preProcessOcrOutput(ocrResults);
       
       console.log("preprocessedOutput:", preProcessedOcrOutput);
-      
+
       const refinedText = await refineOcrText(preProcessedOcrOutput.join(" "));
 
 
       return res.status(200).json({
         message: "Pdf processed sucessfully",
-        ocrTexts: preProcessedOcrOutput,
+        ocrTexts: preProcessedOcrOutput.join(" "),
         refinedText: refinedText,
       });
     } else if (file.mimetype.startsWith("image/")) {
@@ -58,7 +58,7 @@ export const handleFileUploads = async (req, res) => {
 
       return res.status(200).json({
         message: "Image file(s) processed sucessfully",
-        ocrTexts: preProcessedOcrOutput,
+        ocrTexts: preProcessedOcrOutput.join(" "),
         refinedGPTText: refinedText,
       });
     } else {
