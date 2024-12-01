@@ -4,6 +4,6 @@ const storage = multer.memoryStorage();
 
 const upload = multer({ storage });
 
-export default upload.single("file");
+export default upload.array("files");
 
 

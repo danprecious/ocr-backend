@@ -7,18 +7,23 @@ import { refineOcrText } from "../utils/openAiGptRefine.js";
 
 export const handleFileUploads = async (req, res) => {
   try {
-    const file = req.file;
+    const files = req.files;
 
-    if (!file) {
+    console.log(files)
+    
+    if (!files) {
       return res.status(400).json({ error: "No file uploaded" });
     }
+    // fs.writeFileSync('image.png', req.files[0].buffer);
+    
+    const fileBuffers = req.files.map(file => file.buffer);
 
-    console.log("Uploaded file:", file);
+    console.log("Uploaded file(s):", files);
 
-    if (file.mimetype === "application/pdf") {
+    if (files[0].mimetype === "application/pdf") {
       console.log("PDF file uploaded");
 
-      const pdfImages = await convertPdfToImages(file.buffer);
+      const pdfImages = await convertPdfToImages(fileBuffers[0]);
 
       console.log(pdfImages);
 
@@ -35,21 +40,20 @@ export const handleFileUploads = async (req, res) => {
       const ocrResults = await performOcr(preProcessedImages);
 
       const preProcessedOcrOutput = await preProcessOcrOutput(ocrResults);
-      
+
       console.log("preprocessedOutput:", preProcessedOcrOutput);
 
       const refinedText = await refineOcrText(preProcessedOcrOutput.join(" "));
-
 
       return res.status(200).json({
         message: "Pdf processed sucessfully",
         ocrTexts: preProcessedOcrOutput.join(" "),
         refinedText: refinedText,
       });
-    } else if (file.mimetype.startsWith("image/")) {
+    } else if (files[0].mimetype.startsWith("image/")) {
       console.log("Image uploaded");
 
-      const images = await preProcessImages([file.buffer]);
+      const images = await preProcessImages(fileBuffers);
       const ocrResults = await performOcr(images);
       const preProcessedOcrOutput = await preProcessOcrOutput(ocrResults);
       const refinedText = await refineOcrText(preProcessedOcrOutput.join(" "));

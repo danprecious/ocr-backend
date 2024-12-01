@@ -2,6 +2,10 @@ import sharp from "sharp";
 import fs from 'fs';
 
 export const preProcessImages = async (images) => {
+
+
+  console.log(images)
+
   try {
 
     
@@ -10,7 +14,7 @@ export const preProcessImages = async (images) => {
         let processedImage =  sharp(image);
 
         console.log("input image at preProcessImages",image);
-        fs.writeFileSync("input_image.png", image);
+        // fs.writeFileSync("input_image.png", image);
 
         processedImage =  processedImage.grayscale().normalise();
 

@@ -5,17 +5,26 @@ export const performOcr = async (imageBuffers) => {
 
   console.log("at ocr fn", imageBuffers);
 
-  for (const imageBuffer of imageBuffers) {
-    const text = await Tesseract.recognize(imageBuffer, "eng", {
-      logger: (info) => console.log(info),
-    });
+  const ocrPromises = imageBuffers.map(async (imageBuffer) => {
+    try {
+        const text = await Tesseract.recognize(imageBuffer, "eng", {
+          logger: (info) => console.log(info),
+        });
 
-    results.push(text.data.text);
+        results.push(text.data.text);
 
-    console.log(text);
-  }
+        console.log(text);
 
-  console.log(results);
+
+      console.log(results);
+    } catch (error) {
+      console.error(error);
+      results.push(null);
+      throw new Error(error.message);
+    }
+  });
+
+  await Promise.all(ocrPromises);
 
   return results;
 };

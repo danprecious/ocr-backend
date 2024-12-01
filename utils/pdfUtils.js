@@ -127,7 +127,7 @@ export const convertPdfToImages = async (pdfBuffer) => {
       const outputPath = path.join(__dirname, `output/page_${pageNum}.png`);
 
       // Save each page to disk immediately
-      await sharp(imageData).toFile(outputPath);
+      // await sharp(imageData).toFile(outputPath);
       console.log(`Page ${pageNum} saved to ${outputPath}`);
 
       images.push(imageData);
