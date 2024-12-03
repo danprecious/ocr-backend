@@ -9,14 +9,14 @@ export const handleFileUploads = async (req, res) => {
   try {
     const files = req.files;
 
-    console.log(files)
-    
+    console.log(files);
+
     if (!files) {
       return res.status(400).json({ error: "No file uploaded" });
     }
     // fs.writeFileSync('image.png', req.files[0].buffer);
-    
-    const fileBuffers = req.files.map(file => file.buffer);
+
+    const fileBuffers = req.files.map((file) => file.buffer);
 
     console.log("Uploaded file(s):", files);
 
@@ -25,7 +25,7 @@ export const handleFileUploads = async (req, res) => {
 
       const pdfImages = await convertPdfToImages(fileBuffers[0]);
 
-      console.log(pdfImages);
+      // console.log(pdfImages);
 
       if (!pdfImages || pdfImages.length === 0) {
         return res
@@ -35,15 +35,16 @@ export const handleFileUploads = async (req, res) => {
 
       const preProcessedImages = await preProcessImages(pdfImages);
 
-      console.log(preProcessedImages);
+      // console.log(preProcessedImages);
 
       const ocrResults = await performOcr(preProcessedImages);
 
       const preProcessedOcrOutput = await preProcessOcrOutput(ocrResults);
 
-      console.log("preprocessedOutput:", preProcessedOcrOutput);
+      // console.log("preprocessedOutput:", preProcessedOcrOutput);
 
       const refinedText = await refineOcrText(preProcessedOcrOutput.join(" "));
+      console.log(refinedText);
 
       return res.status(200).json({
         message: "Pdf processed sucessfully",
@@ -58,7 +59,7 @@ export const handleFileUploads = async (req, res) => {
       const preProcessedOcrOutput = await preProcessOcrOutput(ocrResults);
       const refinedText = await refineOcrText(preProcessedOcrOutput.join(" "));
 
-      // console.log(refinedText);
+      console.log(refinedText);
 
       return res.status(200).json({
         message: "Image file(s) processed sucessfully",

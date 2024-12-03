@@ -1,33 +1,27 @@
 import sharp from "sharp";
-import fs from 'fs';
+import fs from "fs";
 
 export const preProcessImages = async (images) => {
-
-
-  console.log(images)
+  // console.log(images);
 
   try {
-
-    
     const processedImages = await Promise.all(
       images.map(async (image) => {
-        let processedImage =  sharp(image);
+        let processedImage = sharp(image);
 
-        console.log("input image at preProcessImages",image);
+        console.log("input image at preProcessImages", image);
         // fs.writeFileSync("input_image.png", image);
 
-        processedImage =  processedImage.grayscale().normalise();
+        processedImage = processedImage.grayscale().normalise();
 
         processedImage = await processedImage.toBuffer();
 
+        // console.log(processedImage);
+        // const response = fs.writeFileSync("processed_image.png", processedImage);
 
-        console.log(processedImage);
-        const response = fs.writeFileSync("processed_image.png", processedImage);
-
-        console.log(response);
+        // console.log(response);
 
         return processedImage;
-
       })
     );
 

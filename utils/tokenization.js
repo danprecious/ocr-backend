@@ -18,8 +18,8 @@ export const chunkText = async (text, maxTokens) => {
   for (const word of words) {
     const tokenEstimate = word.length > 1 ? 1 : 0.5;
 
-    console.log(tokenEstimate);
-    console.log("type of", typeof(currentChunk));
+    // console.log(tokenEstimate);
+    // console.log("type of", typeof(currentChunk));
 
     if (currentTokenCount + tokenEstimate > maxTokens) {
       chunks.push(currentChunk.join(""));

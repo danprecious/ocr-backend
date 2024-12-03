@@ -3,18 +3,17 @@ import Tesseract from "tesseract.js";
 export const performOcr = async (imageBuffers) => {
   const results = [];
 
-  console.log("at ocr fn", imageBuffers);
+  // console.log("at ocr fn", imageBuffers);
 
   const ocrPromises = imageBuffers.map(async (imageBuffer) => {
     try {
-        const text = await Tesseract.recognize(imageBuffer, "eng", {
-          logger: (info) => console.log(info),
-        });
+      const text = await Tesseract.recognize(imageBuffer, "eng", {
+        logger: (info) => console.log(info),
+      });
 
-        results.push(text.data.text);
+      results.push(text.data.text);
 
-        console.log(text);
-
+      // console.log(text);
 
       console.log(results);
     } catch (error) {
