@@ -9,7 +9,7 @@ export const preProcessImages = async (images) => {
       images.map(async (image) => {
         let processedImage = sharp(image);
 
-        console.log("input image at preProcessImages", image);
+        // console.log("input image at preProcessImages", image);
         // fs.writeFileSync("input_image.png", image);
 
         processedImage = processedImage.grayscale().normalise();

@@ -49,7 +49,7 @@ export const convertPdfToImages = async (pdfBuffer) => {
 
       images.push(imageData);
 
-      console.log(`page ${pageNum} image data: `, imageData.length);
+      // console.log(`page ${pageNum} image data: `, imageData.length);
     }
 
     // console.log(images);
