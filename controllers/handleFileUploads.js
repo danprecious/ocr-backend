@@ -64,7 +64,7 @@ export const handleFileUploads = async (req, res) => {
       return res.status(200).json({
         message: "Image file(s) processed sucessfully",
         ocrTexts: preProcessedOcrOutput.join(" "),
-        refinedGPTText: refinedText,
+        refinedText: refinedText,
       });
     } else {
       return res.status(400).json({ error: "Unsupported file type" });
