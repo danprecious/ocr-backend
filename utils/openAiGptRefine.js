@@ -15,7 +15,7 @@ const inputTokenLimit = Math.floor(availableTokens / 2);
 const outputTokenLimit = Math.floor(availableTokens / 2);
 
 export const refineOcrText = async (text) => {
-  console.log("AT REFINE TEXT: TEXT RECEIVED", text);
+  console.log("AT REFINE TEXT: TEXT RECEIVED", text.slice(0, 200));
 
   const tokenCount = calculateTokens(text);
 
@@ -35,7 +35,7 @@ export const refineOcrText = async (text) => {
 
     const refinedText = await sendToHuggingFaceAPI(text, outputTokenLimit);
 
-    console.log("From RefineText fn:", refinedText);
+    // console.log("From RefineText fn:", refinedText.slice(0, 500));
     return refinedText;
   }
 };

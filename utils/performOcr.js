@@ -1,29 +1,38 @@
-import Tesseract from "tesseract.js";
+import { createWorker } from "tesseract.js";
 
-export const performOcr = async (imageBuffers) => {
+export const performOcr = async (imageBuffers, batchSize = 3) => {
   const results = [];
+  const worker = await createWorker("eng");
 
-  // console.log("at ocr fn", imageBuffers);
+  try {
+    for (let i = 0; i < imageBuffers.length; i += batchSize) {
+      const batch = imageBuffers.slice(i, i + batchSize);
 
-  const ocrPromises = imageBuffers.map(async (imageBuffer) => {
-    try {
-      const text = await Tesseract.recognize(imageBuffer, "eng", {
-        logger: (info) => console.log(info),
-      });
+      const batchResults = await Promise.all(
+        batch.map(async (imageBuffer) => {
+          try {
+            // const resizedBuffer = await sharp(imageBuffer)
+            //   // .resize({ width: 800 }) // Downscale image
+            //   .toBuffer();
 
-      results.push(text.data.text);
-
-      // console.log(text);
-
-      console.log(results);
-    } catch (error) {
-      console.error(error);
-      results.push(null);
-      throw new Error(error.message);
+            const {
+              data: { text },
+            } = await worker.recognize(imageBuffer);
+            return text;
+          } catch (error) {
+            console.error(error);
+            return null;
+          }
+        })
+      );
+      results.push(...batchResults);
     }
-  });
-
-  await Promise.all(ocrPromises);
+  } catch (error) {
+    console.error(error);
+    throw new Error(error.message);
+  } finally {
+    await worker.terminate();
+  }
 
   return results;
 };

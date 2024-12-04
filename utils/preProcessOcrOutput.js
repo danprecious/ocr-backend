@@ -5,7 +5,7 @@ export const preProcessOcrOutput = async (ocrResults) => {
   try {
     let processedResults = [];  // Store the processed results
     for (const textContent of ocrResults) {
-      console.log(textContent);  // Log each element for debugging
+      // console.log(textContent);  // Log each element for debugging
 
       // You can add any cleaning logic here
       let cleanedText = textContent

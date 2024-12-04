@@ -44,7 +44,7 @@ export const handleFileUploads = async (req, res) => {
       // console.log("preprocessedOutput:", preProcessedOcrOutput);
 
       const refinedText = await refineOcrText(preProcessedOcrOutput.join(" "));
-      console.log(refinedText);
+      console.log(refinedText.slice(0, 100));
 
       return res.status(200).json({
         message: "Pdf processed sucessfully",
@@ -56,10 +56,10 @@ export const handleFileUploads = async (req, res) => {
 
       const images = await preProcessImages(fileBuffers);
       const ocrResults = await performOcr(images);
-      const preProcessedOcrOutput = await preProcessOcrOutput(ocrResults);
+      const preProcessedOcrOutput = await preProcessOcrOutput(ocrResults``);
       const refinedText = await refineOcrText(preProcessedOcrOutput.join(" "));
 
-      console.log(refinedText);
+      console.log(refinedText.slice(0, 100));
 
       return res.status(200).json({
         message: "Image file(s) processed sucessfully",

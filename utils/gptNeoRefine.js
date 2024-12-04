@@ -23,7 +23,7 @@ export const sendToHuggingFaceAPI = async (text, outputLimit) => {
 
     const refinedText = response.choices[0].message.content;
 
-    console.log("refined text from huggingface:", refinedText);
+    console.log("refined text from huggingface:", refinedText.slice(0, 500));
 
     return refinedText;
   } catch (error) {
