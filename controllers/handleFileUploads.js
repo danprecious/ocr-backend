@@ -56,7 +56,7 @@ export const handleFileUploads = async (req, res) => {
 
       const images = await preProcessImages(fileBuffers);
       const ocrResults = await performOcr(images);
-      const preProcessedOcrOutput = await preProcessOcrOutput(ocrResults``);
+      const preProcessedOcrOutput = await preProcessOcrOutput(ocrResults);
       const refinedText = await refineOcrText(preProcessedOcrOutput.join(" "));
 
       console.log(refinedText.slice(0, 100));
